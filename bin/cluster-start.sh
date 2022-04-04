@@ -30,4 +30,4 @@ docker run -dit --rm --init \
 
 docker exec -it \
   ioj-master \
-  gosu hadoop bash -ci "./bin/start.sh"
+  gosu hadoop bash -ci "./bin/start.sh && sleep 10"
