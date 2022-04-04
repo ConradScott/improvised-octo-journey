@@ -1,5 +1,24 @@
 FROM ioj-base:latest
 
+RUN useradd --create-home --shell /bin/bash hadoop
+
+USER hadoop
+WORKDIR /home/hadoop
+
+RUN    mkdir -p .ssh \
+    && ssh-keygen -t rsa -P '' -f .ssh/id_rsa \
+    && cat .ssh/id_rsa.pub >> .ssh/authorized_keys \
+    && chmod 0600 .ssh/authorized_keys \
+    \
+    && mkdir --mode=0755 bin \
+    \
+    && ( echo && echo 'export PATH=$PATH:$HOME/bin' ) >> .bashrc
+
+COPY --chmod=0400 --chown=hadoop:hadoop ssh-config/* .ssh/
+COPY --chmod=0755 --chown=hadoop:hadoop bin/* bin/
+
+USER root
+
 ENV HADOOP_HOME=/usr/local/hadoop-3.3.2
 
 # RUN    wget https://dlcdn.apache.org/hadoop/common/hadoop-3.3.2/hadoop-3.3.2.tar.gz \
@@ -24,6 +43,7 @@ WORKDIR /home/hadoop
 
 RUN ( echo && echo 'export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin' ) >> .bashrc
 
-COPY --chmod=0755 --chown=hadoop:hadoop bin/* bin/
-
 USER root
+
+ENTRYPOINT [ "bin/entrypoint.sh" ]
+CMD [ "bash" ]
