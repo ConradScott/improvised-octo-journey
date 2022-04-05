@@ -1,5 +1,7 @@
 FROM ioj-hadoop:latest
 
+SHELL ["/bin/bash", "-o", "errexit", "-o", "nounset", "-o", "pipefail", "-c"]
+
 WORKDIR /tmp
 
 ENV SPARK_HOME=/usr/local/spark-3.2.1-bin-hadoop3.2-scala2.13

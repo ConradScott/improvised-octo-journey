@@ -1,5 +1,7 @@
 FROM ubuntu:20.04
 
+SHELL ["/bin/bash", "-o", "errexit", "-o", "nounset", "-o", "pipefail", "-c"]
+
 ENV JAVA_HOME="/usr/lib/jvm/java-11-amazon-corretto"
 
 RUN    apt update \

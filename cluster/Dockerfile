@@ -1,5 +1,7 @@
 FROM ioj-spark:latest
 
+SHELL ["/bin/bash", "-o", "errexit", "-o", "nounset", "-o", "pipefail", "-c"]
+
 USER hadoop
 WORKDIR /home/hadoop
 

@@ -1,5 +1,7 @@
 FROM ioj-base:latest
 
+SHELL ["/bin/bash", "-o", "errexit", "-o", "nounset", "-o", "pipefail", "-c"]
+
 RUN useradd --create-home --shell /bin/bash hadoop
 
 USER hadoop
