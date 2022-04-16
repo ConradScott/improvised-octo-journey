@@ -21,16 +21,19 @@ COPY --chmod=0755 --chown=hadoop:hadoop bin/* bin/
 
 USER root
 
-ENV HADOOP_HOME=/usr/local/hadoop-3.3.2
+ENV HADOOP_HOME=/usr/local/hadoop
 
 # RUN    wget https://dlcdn.apache.org/hadoop/common/hadoop-3.3.2/hadoop-3.3.2.tar.gz \
 #     && echo 'e8dcc18b1413664f7d6a12803eccdeb60fd786f3f91dda40410dc069d4dd911daf0f7d024b4351288b788d6a7aa4124607dbf94ac2f8d2fba5c826c8bea7c13d	hadoop-3.3.2.tar.gz' | sha512sum -c - \
 #     && tar xf hadoop-3.3.2.tar.gz --owner=root --group=root -C /usr/local/ \
+#     && ln -s /usr/local/hadoop-3.3.2 "${HADOOP_HOME}"
 #     && rm hadoop-3.3.2.tar.gz
 
 ADD --chown=root:root cache/hadoop-3.3.2.tar.gz /usr/local
 
-RUN    mkdir --mode=0755 "${HADOOP_HOME}"/logs/ \
+RUN    ln -s /usr/local/hadoop-3.3.2 "${HADOOP_HOME}" \
+    \
+    && mkdir --mode=0755 "${HADOOP_HOME}"/logs/ \
     && chown hadoop:hadoop "${HADOOP_HOME}"/logs/ \
     \
     && mkdir --mode=0755 /hadoop/ \
