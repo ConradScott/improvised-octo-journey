@@ -10,3 +10,4 @@ docker build -t ioj-spark:latest spark
 docker build -t ioj-pseudo-distributed:latest pseudo-distributed
 docker build -t ioj-pseudo-distributed-yarn:latest pseudo-distributed-yarn
 docker build -t ioj-cluster:latest cluster
+docker build -t ioj-jupyter:latest jupyter
