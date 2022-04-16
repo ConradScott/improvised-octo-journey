@@ -5,6 +5,7 @@ SHELL ["/bin/bash", "-o", "errexit", "-o", "nounset", "-o", "pipefail", "-c"]
 WORKDIR /tmp
 
 ENV SPARK_HOME=/usr/local/spark
+ENV LD_LIBRARY_PATH=${HADOOP_HOME}/lib/native
 
 # RUN    wget https://downloads.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz \
 #     && echo '145ADACF189FECF05FBA3A69841D2804DD66546B11D14FC181AC49D89F3CB5E4FECD9B25F56F0AF767155419CD430838FB651992AEB37D3A6F91E7E009D1F9AE	spark-3.2.1-bin-hadoop3.2.tgz' | sha512sum -c - \
