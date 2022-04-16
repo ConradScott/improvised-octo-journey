@@ -11,3 +11,5 @@ start-yarn.sh
 echo "ResourceManager - http://localhost:8088/"
 
 mapred --daemon start historyserver
+
+start-master.sh

@@ -4,20 +4,28 @@ SHELL ["/bin/bash", "-o", "errexit", "-o", "nounset", "-o", "pipefail", "-c"]
 
 WORKDIR /tmp
 
-ENV SPARK_HOME=/usr/local/spark-3.2.1-bin-hadoop3.2-scala2.13
+ENV SPARK_HOME=/usr/local/spark
 
-# RUN    https://downloads.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2-scala2.13.tgz \
-#     && echo '6E7D62BA0943CEF5EDD8220960900D3491C68CE0ACBF233DDCA2BFF6FF68984260D58F8161629478AA3CD3AA79270062D9B62330788A5CF1A39CE4E8422D15FE	hadoop-3.3.2.tar.gz' | sha512sum -c - \
-#     && tar xf spark-3.2.1-bin-hadoop3.2-scala2.13.tgz --owner=root --group=root -C /usr/local/ \
-#     && rm spark-3.2.1-bin-hadoop3.2-scala2.13.tgz
+# RUN    wget https://downloads.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz \
+#     && echo '145ADACF189FECF05FBA3A69841D2804DD66546B11D14FC181AC49D89F3CB5E4FECD9B25F56F0AF767155419CD430838FB651992AEB37D3A6F91E7E009D1F9AE	spark-3.2.1-bin-hadoop3.2.tgz' | sha512sum -c - \
+#     && tar xf spark-3.2.1-bin-hadoop3.2.tgz --owner=root --group=root -C /usr/local/ \
+#     && ln -s /usr/local/spark-3.2.1-bin-hadoop3.2 "${SPARK_HOME}"
+#     && rm spark-3.2.1-bin-hadoop3.2.tgz
 
-ADD --chown=root:root cache/spark-3.2.1-bin-hadoop3.2-scala2.13.tgz /usr/local
+ADD --chown=root:root cache/spark-3.2.1-bin-hadoop3.2.tgz /usr/local
+
+RUN    ln -s /usr/local/spark-3.2.1-bin-hadoop3.2 "${SPARK_HOME}" \
+    \
+    && mkdir --mode=0755 "${SPARK_HOME}"/logs/ \
+    && chown hadoop:hadoop "${SPARK_HOME}"/logs/
+
+COPY --chmod=0644 --chown=root:root spark-config/* "${SPARK_HOME}"/conf/
 
 RUN echo "SPARK_HOME=\"${SPARK_HOME}\"" >> /etc/environment
 
 USER hadoop
 WORKDIR /home/hadoop
 
-RUN ( echo && echo 'export PATH=$PATH:$SPARK_HOME/bin' ) >> .bashrc
+RUN ( echo && echo 'export PATH=$PATH:$SPARK_HOME/sbin:$SPARK_HOME/bin' ) >> .bashrc
 
 USER root
