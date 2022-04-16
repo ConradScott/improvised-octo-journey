@@ -12,9 +12,9 @@ RUN    mkdir -p .ssh \
     && cat .ssh/id_rsa.pub >> .ssh/authorized_keys \
     && chmod 0600 .ssh/authorized_keys \
     \
-    && mkdir --mode=0755 bin \
-    \
-    && ( echo && echo 'export PATH=$PATH:$HOME/bin' ) >> .bashrc
+    && mkdir --mode=0755 bin
+
+ENV PATH=/home/hadoop/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 COPY --chmod=0400 --chown=hadoop:hadoop ssh-config/* .ssh/
 COPY --chmod=0755 --chown=hadoop:hadoop bin/* bin/
@@ -38,17 +38,14 @@ RUN    ln -s /usr/local/hadoop-3.3.2 "${HADOOP_HOME}" \
     && chown hadoop:hadoop "${HADOOP_HOME}"/logs/ \
     \
     && mkdir --mode=0755 /hadoop/ \
-    && chown hadoop:hadoop /hadoop/ \
-    \
-    && echo "HADOOP_HOME=\"${HADOOP_HOME}\"" >> /etc/environment \
-    && echo "HADOOP_CONF_DIR=\"${HADOOP_CONF_DIR}\"" >> /etc/environment
+    && chown hadoop:hadoop /hadoop/
 
 VOLUME /hadoop
 
 USER hadoop
 WORKDIR /home/hadoop
 
-RUN ( echo && echo 'export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin' ) >> .bashrc
+ENV PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
 
 USER root
 

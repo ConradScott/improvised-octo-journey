@@ -21,11 +21,9 @@ RUN    ln -s /usr/local/spark-3.2.1-bin-hadoop3.2 "${SPARK_HOME}" \
 
 COPY --chmod=0644 --chown=root:root spark-config/* "${SPARK_HOME}"/conf/
 
-RUN echo "SPARK_HOME=\"${SPARK_HOME}\"" >> /etc/environment
-
 USER hadoop
 WORKDIR /home/hadoop
 
-RUN ( echo && echo 'export PATH=$PATH:$SPARK_HOME/sbin:$SPARK_HOME/bin' ) >> .bashrc
+ENV PATH=$PATH:$SPARK_HOME/sbin:$SPARK_HOME/bin
 
 USER root

@@ -11,6 +11,4 @@ RUN    apt update \
     && add-apt-repository 'deb https://apt.corretto.aws stable main' \
     \
     && apt update \
-    && apt install -y java-11-amazon-corretto-jdk \
-    \
-    && echo "JAVA_HOME=\"${JAVA_HOME}\"" >> /etc/environment
+    && apt install -y java-11-amazon-corretto-jdk
