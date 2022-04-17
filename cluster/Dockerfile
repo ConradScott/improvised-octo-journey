@@ -2,6 +2,14 @@ FROM ioj-spark:latest
 
 SHELL ["/bin/bash", "-o", "errexit", "-o", "nounset", "-o", "pipefail", "-c"]
 
+ENV HADOOP_HEAPSIZE_MAX=2G
+ENV HADOOP_NAMENODE_OPTS=-server\ -XX:+UseG1GC\ -Xms1536m\ -Xmx1536m\ -XX:PermSize=128m\ -XX:MaxPermSize=256m\ -Dhadoop.security.logger=INFO,DRFAS\ -Dhdfs.audit.logger=INFO,DRFAAUDIT
+ENV HDFS_SECONDARYNAMENODE_OPTS=${HADOOP_NAMENODE_OPTS}
+
+RUN    echo "HADOOP_HEAPSIZE_MAX=\"${HADOOP_HEAPSIZE_MAX}\"" >> /etc/environment \
+    && echo "HADOOP_NAMENODE_OPTS=\"${HADOOP_NAMENODE_OPTS}\"" >> /etc/environment \
+    && echo "HDFS_SECONDARYNAMENODE_OPTS=\"${HDFS_SECONDARYNAMENODE_OPTS}\"" >> /etc/environment
+
 USER hadoop
 WORKDIR /home/hadoop
 
