@@ -6,6 +6,7 @@ USER root
 
 ENV HADOOP_HOME=/usr/local/hadoop
 ENV HADOOP_CONF_DIR=${HADOOP_HOME}/etc/hadoop
+ENV HADOOP_USER_NAME=hadoop
 
 COPY --chmod=0644 --chown=root:root hadoop-config/* "${HADOOP_HOME}"/etc/hadoop/
 
