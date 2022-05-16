@@ -30,3 +30,9 @@ EXPOSE 8088
 
 # Yarn MapReduce JobHistory Server Web UI
 EXPOSE 19888
+
+# Spark master port
+EXPOSE 7077
+
+# Spark master UI port
+EXPOSE 8080

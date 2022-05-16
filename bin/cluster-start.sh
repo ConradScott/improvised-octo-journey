@@ -12,6 +12,7 @@ docker run -dit --rm --init \
   -v ioj-master:/hadoop \
   --network ioj \
   -p 9870:9870/tcp -p 8088:8088/tcp -p 19888:19888/tcp \
+  -p 7077:7077/tcp -p 8080:8080/tcp \
   ioj-cluster:latest
 
 # ioj-worker-1
