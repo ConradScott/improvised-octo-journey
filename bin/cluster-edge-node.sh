@@ -4,4 +4,8 @@ set -o nounset
 set -o pipefail
 set -x
 
-docker run -it --rm --init --network ioj ioj-cluster:latest "$@"
+docker run -it --rm --init \
+  --name ioj-edge-node \
+  --network ioj \
+  ioj-cluster:latest \
+  "$@"
